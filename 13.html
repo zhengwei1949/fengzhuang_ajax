@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./jquery.js"></script>
+    <script>
+    $.ajax({
+        type: 'get',
+        url: './data.xml',
+        data: {},
+        success: function (data) {
+            console.log(data);
+        },
+        dataType: 'xml'
+    });
+
+    $.get('./get_json.php', { username: 'jack', age: 20 }, function (data) {
+        console.log(data);
+    }, 'json');
+
+    $.post('./post_json.php', { username: 'jack', age: 20 }, function (data) {
+        console.log(data);
+    }, 'json')
+
+    </script>
+</body>
+</html>
