@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        function ajax(type,url,data,success){
+            var xhr = new XMLHttpRequest();
+            xhr.open(type, url+'?'+getPa(data));
+            xhr.send(null);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var obj = JSON.parse(xhr.responseText);
+                    success(obj);
+                }
+            }
+        }
+        
+    
+        /**
+         * getPa 把对象类型的data转换成a=1&b=2的形式
+         * @return mixed 
+         */
+        function getPa(data){
+            var str = "";
+            for (var i in data) {
+                str = str + i + "=" + data[i] + "&";
+            }
+           return str.slice(0, str.length - 1);
+        }
+
+        window.onload = function () {
+            var btn = document.getElementById('btn');
+            btn.onclick = function () {
+                var username = document.getElementById('username').value;
+                var age = document.getElementById('age').value;
+                ajax('get','./get_json.php',{username:username,age:age},function(data){
+                    console.log(data);
+                })
+            }
+        };
+    
+
+        
+    </script>
+</head>
+
+<body>
+    姓名：
+    <input type="text" name="username" id="username"> 年龄：
+    <input type="number" name="age" id="age">
+    <input type="button" value="点击发送ajax" id="btn">
+    <p id="cont"></p>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        var $ = {
+            ajax:function (option) {
+                //默认值
+                option.type = option.type || 'get';
+                option.dataType = option.dataType || 'json';
+
+                var xhr = new XMLHttpRequest();
+                if(option.type == 'get'){
+                    xhr.open(option.type, option.url + '?' + this.getPa(option.data));
+                    xhr.send(null);
+                }else{
+                    xhr.open(option.type, option.url);
+                    xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+                    xhr.send(this.getPa(option.data));
+                }
+                
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        if(option.dataType == 'text'){
+                            var obj = xhr.responseText;
+                            option.success(obj);
+                        }else if(option.dataType == 'xml'){
+                            var result = xhr.responseXML;
+                            option.success(result);
+                        //默认是json类型
+                        } else{
+                            var obj = JSON.parse(xhr.responseText);
+                            typeof option.success == 'function' && option.success(obj);
+                        }
+                    }
+                }
+            },
+            getPa:function (data) {
+                var str = "";
+                for (var i in data) {
+                    str = str + i + "=" + data[i] + "&";
+                }
+                return str.slice(0, str.length - 1);
+            }
+        };
+
+        $.ajax({
+            type:'get',
+            url: './data.xml',
+            data:{},
+            success: function (data) {
+                console.log(data);
+            },
+            dataType:'xml'
+        });
+    </script>
+</head>
+
+<body>
+    
+</body>
+
+</html>

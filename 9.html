@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        var $ = {
+            ajax:function (type,url, data, success,dataType) {
+                var xhr = new XMLHttpRequest();
+                if(type == 'get'){
+                    xhr.open(type, url + '?' + this.getPa(data));
+                    xhr.send(null);
+                }else{
+                    xhr.open(type, url);
+                    xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+                    xhr.send(this.getPa(data));
+                }
+                
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        if(dataType == 'text'){
+                            var obj = xhr.responseText;
+                            success(obj);
+                        }else if(dataType == 'xml'){
+                            var result = xhr.responseXML;
+                            success(result);
+                        //默认是json类型
+                        } else{
+                            var obj = JSON.parse(xhr.responseText);
+                            success(obj);
+                        }
+                    }
+                }
+            },
+            getPa:function (data) {
+                var str = "";
+                for (var i in data) {
+                    str = str + i + "=" + data[i] + "&";
+                }
+                return str.slice(0, str.length - 1);
+            }
+        };
+
+        $.ajax('get', './data.xml', {}, function (data) {
+                console.log(data);
+            },'xml');
+
+        $.ajax('get', './data.txt', {}, function (data) {
+                console.log(data);
+            },'text');
+
+        $.ajax('get','./get_json.php', {username:'jack',age:20}, function (data) {
+                console.log(data);
+            },'json');
+        $.ajax('post', './post_json.php', {username:'jack',age:20}, function (data) {
+                console.log(data);
+            },'json')
+
+        
+    </script>
+</head>
+
+<body>
+    
+</body>
+
+</html>

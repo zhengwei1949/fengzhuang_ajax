@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<fruits>
+    <item>
+        <name>苹果</name>
+        <price>8</price>
+    </item>
+    <item>
+        <name>桔子</name>
+        <price>6</price>
+    </item>
+    <item>
+        <name>葡萄</name>
+        <price>4</price>
+    </item>    
+</fruits>
